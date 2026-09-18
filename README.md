@@ -28,9 +28,13 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
 ├── README.md
 ├── src/
 │   └── dev_local_artifact_pruner/
-│       └── __init__.py
+│       ├── __init__.py
+│       └── core/
+│           ├── __init__.py
+│           └── models.py
 └── tests/
     ├── __init__.py
     ├── conftest.py
+    ├── test_models.py
     └── test_scaffold.py
 ```

@@ -29,12 +29,18 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
 ├── src/
 │   └── dev_local_artifact_pruner/
 │       ├── __init__.py
-│       └── core/
+│       ├── core/
+│       │   ├── __init__.py
+│       │   └── models.py
+│       └── utils/
 │           ├── __init__.py
-│           └── models.py
+│           ├── disk_usage.py
+│           └── formatters.py
 └── tests/
     ├── __init__.py
     ├── conftest.py
+    ├── test_disk_usage.py
+    ├── test_formatters.py
     ├── test_models.py
     └── test_scaffold.py
 ```

@@ -31,7 +31,8 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
 │       ├── __init__.py
 │       ├── core/
 │       │   ├── __init__.py
-│       │   └── models.py
+│       │   ├── models.py
+│       │   └── rules.py
 │       └── utils/
 │           ├── __init__.py
 │           ├── disk_usage.py
@@ -43,6 +44,7 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
     ├── test_disk_usage.py
     ├── test_formatters.py
     ├── test_models.py
+    ├── test_rules.py
     ├── test_safe_delete.py
     └── test_scaffold.py
 ```

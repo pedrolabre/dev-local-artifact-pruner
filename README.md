@@ -31,6 +31,7 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
 │       ├── __init__.py
 │       ├── core/
 │       │   ├── __init__.py
+│       │   ├── git_client.py
 │       │   ├── models.py
 │       │   └── rules.py
 │       └── utils/
@@ -43,6 +44,7 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
     ├── conftest.py
     ├── test_disk_usage.py
     ├── test_formatters.py
+    ├── test_git_client.py
     ├── test_models.py
     ├── test_rules.py
     ├── test_safe_delete.py

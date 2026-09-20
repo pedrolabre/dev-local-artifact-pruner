@@ -35,12 +35,14 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
 │       └── utils/
 │           ├── __init__.py
 │           ├── disk_usage.py
-│           └── formatters.py
+│           ├── formatters.py
+│           └── safe_delete.py
 └── tests/
     ├── __init__.py
     ├── conftest.py
     ├── test_disk_usage.py
     ├── test_formatters.py
     ├── test_models.py
+    ├── test_safe_delete.py
     └── test_scaffold.py
 ```

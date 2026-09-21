@@ -16,6 +16,7 @@ from dev_local_artifact_pruner.core.rules import (
     is_cleanable_artifact,
     is_protected_path,
 )
+from dev_local_artifact_pruner.core.rebuilder import RebuildScriptGenerator
 from dev_local_artifact_pruner.core.scanner import ProjectScanner
 
 __all__ = [
@@ -28,6 +29,7 @@ __all__ = [
     "Project",
     "ProjectScanner",
     "PruneSummary",
+    "RebuildScriptGenerator",
     "RuleEngine",
     "filter_untracked_files",
     "is_cleanable_artifact",

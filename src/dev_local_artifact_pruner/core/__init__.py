@@ -16,6 +16,7 @@ from dev_local_artifact_pruner.core.rules import (
     is_cleanable_artifact,
     is_protected_path,
 )
+from dev_local_artifact_pruner.core.scanner import ProjectScanner
 
 __all__ = [
     "ActionState",
@@ -25,6 +26,7 @@ __all__ = [
     "GitClient",
     "GitInfo",
     "Project",
+    "ProjectScanner",
     "PruneSummary",
     "RuleEngine",
     "filter_untracked_files",

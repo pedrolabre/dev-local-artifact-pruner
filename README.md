@@ -33,7 +33,8 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
 │       │   ├── __init__.py
 │       │   ├── git_client.py
 │       │   ├── models.py
-│       │   └── rules.py
+│       │   ├── rules.py
+│       │   └── scanner.py
 │       └── utils/
 │           ├── __init__.py
 │           ├── disk_usage.py
@@ -48,5 +49,6 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
     ├── test_models.py
     ├── test_rules.py
     ├── test_safe_delete.py
-    └── test_scaffold.py
+    ├── test_scaffold.py
+    └── test_scanner.py
 ```

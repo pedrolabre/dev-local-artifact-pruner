@@ -33,6 +33,7 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
 │       │   ├── __init__.py
 │       │   ├── git_client.py
 │       │   ├── models.py
+│       │   ├── pruner.py
 │       │   ├── rebuilder.py
 │       │   ├── rules.py
 │       │   └── scanner.py
@@ -48,6 +49,7 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
     ├── test_formatters.py
     ├── test_git_client.py
     ├── test_models.py
+    ├── test_pruner.py
     ├── test_rebuilder.py
     ├── test_rules.py
     ├── test_safe_delete.py

@@ -16,6 +16,7 @@ from dev_local_artifact_pruner.core.rules import (
     is_cleanable_artifact,
     is_protected_path,
 )
+from dev_local_artifact_pruner.core.pruner import ProjectPruner
 from dev_local_artifact_pruner.core.rebuilder import RebuildScriptGenerator
 from dev_local_artifact_pruner.core.scanner import ProjectScanner
 
@@ -27,6 +28,7 @@ __all__ = [
     "GitClient",
     "GitInfo",
     "Project",
+    "ProjectPruner",
     "ProjectScanner",
     "PruneSummary",
     "RebuildScriptGenerator",

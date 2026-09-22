@@ -37,6 +37,10 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
 │       │   ├── rebuilder.py
 │       │   ├── rules.py
 │       │   └── scanner.py
+│       ├── ui/
+│       │   ├── __init__.py
+│       │   ├── styles.py
+│       │   └── terminal.py
 │       └── utils/
 │           ├── __init__.py
 │           ├── disk_usage.py
@@ -54,5 +58,6 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
     ├── test_rules.py
     ├── test_safe_delete.py
     ├── test_scaffold.py
-    └── test_scanner.py
+    ├── test_scanner.py
+    └── test_terminal_widget.py
 ```

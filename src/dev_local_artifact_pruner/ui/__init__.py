@@ -1,3 +1,4 @@
+from dev_local_artifact_pruner.ui.home_screen import HomeScreen, ModeCard
 from dev_local_artifact_pruner.ui.styles import (
     COLOR_ACCENT_BLUE,
     COLOR_ACCENT_GREEN,
@@ -26,6 +27,8 @@ from dev_local_artifact_pruner.ui.styles import (
 from dev_local_artifact_pruner.ui.terminal import TerminalWidget
 
 __all__ = [
+    "HomeScreen",
+    "ModeCard",
     "TerminalWidget",
     "COLOR_BG_APP",
     "COLOR_BG_PANEL",

@@ -39,6 +39,7 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
 │       │   └── scanner.py
 │       ├── ui/
 │       │   ├── __init__.py
+│       │   ├── home_screen.py
 │       │   ├── styles.py
 │       │   └── terminal.py
 │       └── utils/
@@ -52,6 +53,7 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
     ├── test_disk_usage.py
     ├── test_formatters.py
     ├── test_git_client.py
+    ├── test_home_screen.py
     ├── test_models.py
     ├── test_pruner.py
     ├── test_rebuilder.py

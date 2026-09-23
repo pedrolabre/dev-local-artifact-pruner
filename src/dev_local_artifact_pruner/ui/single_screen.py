@@ -3,6 +3,7 @@ from typing import Dict, Optional, Tuple
 
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
+    QApplication,
     QFileDialog,
     QHBoxLayout,
     QLabel,
@@ -240,6 +241,7 @@ class SingleProjectScreen(QWidget):
         self.terminal.append_line("")
         self.terminal.append_line(f"project-pruner > prune {self.current_project.name}")
         self.terminal.append_line("Iniciando poda segura dos artefatos...")
+        QApplication.processEvents()
 
         try:
             summary: PruneSummary = self.pruner.prune_project(self.current_project)
@@ -259,6 +261,7 @@ class SingleProjectScreen(QWidget):
 
         self.current_project = None
         self.set_action_state(ActionState.COMPLETED)
+        QApplication.processEvents()
 
     def cancel_prune(self) -> None:
         self.terminal.append_line("")

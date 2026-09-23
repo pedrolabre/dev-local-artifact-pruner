@@ -4,6 +4,7 @@ from typing import List, Optional, Union
 from PySide6.QtCore import QObject, Qt, QThread, Signal
 from PySide6.QtGui import QCloseEvent
 from PySide6.QtWidgets import (
+    QApplication,
     QFileDialog,
     QHBoxLayout,
     QLabel,
@@ -265,6 +266,7 @@ class MultiProjectScreen(QWidget):
             return
         self.set_action_state(ActionState.PRUNING)
         self.terminal.append_line(f"\nproject-pruner > prune-multiple ({len(selected)} projetos)\nIniciando poda segura dos projetos selecionados...")
+        QApplication.processEvents()
         try:
             summary = self.pruner.prune_multiple_projects(selected)
         except Exception as exc:
@@ -279,6 +281,7 @@ class MultiProjectScreen(QWidget):
             for err in summary.errors:
                 self.terminal.log_error(f"Erro durante a poda: {err}")
         self.set_action_state(ActionState.COMPLETED)
+        QApplication.processEvents()
 
     def cancel_prune(self) -> None:
         self.terminal.append_line("\nOperação de poda cancelada pelo usuário.")

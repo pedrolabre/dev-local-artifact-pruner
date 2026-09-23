@@ -80,6 +80,7 @@ class ProjectPruner:
                 or file_name.startswith(".env")
                 or file_name == ".git"
                 or ".git" in artifact_path.parts
+                or file_name == "rebuild_dependencies.py"
             ):
                 errors.append(f"Protected path cannot be removed: {artifact_path}")
                 continue
@@ -88,6 +89,9 @@ class ProjectPruner:
                 abs_artifact = Path(os.path.abspath(artifact_path))
                 if abs_artifact == abs_root:
                     errors.append(f"Cannot prune project root as artifact: {artifact_path}")
+                    continue
+                if abs_artifact == Path(abs_artifact.anchor) or abs_artifact in abs_root.parents:
+                    errors.append(f"Cannot prune root filesystem or parent path: {artifact_path}")
                     continue
                 if abs_root not in abs_artifact.parents:
                     errors.append(f"Artifact path is outside project root: {artifact_path}")
@@ -130,29 +134,35 @@ class ProjectPruner:
         )
 
     def prune_project(
-        *args: Any,
+        self_or_project: Any = None,
+        project: Optional[Project] = None,
+        overwrite_rebuild_script: Optional[bool] = None,
         **kwargs: Any,
     ) -> PruneSummary:
         instance: ProjectPruner
         target_project: Optional[Project] = None
-        overwrite: Optional[bool] = kwargs.get("overwrite_rebuild_script")
+        overwrite: Optional[bool] = (
+            overwrite_rebuild_script
+            if overwrite_rebuild_script is not None
+            else kwargs.get("overwrite_rebuild_script")
+        )
 
-        if not args:
-            instance = ProjectPruner()
-            target_project = kwargs.get("project")
-        elif isinstance(args[0], ProjectPruner):
-            instance = args[0]
-            if len(args) > 1:
-                target_project = args[1]
-            else:
-                target_project = kwargs.get("project")
-            if len(args) > 2 and overwrite is None:
-                overwrite = args[2]
+        if isinstance(self_or_project, ProjectPruner):
+            instance = self_or_project
+            target_project = project if project is not None else kwargs.get("project")
         else:
             instance = ProjectPruner()
-            target_project = args[0]
-            if len(args) > 1 and overwrite is None:
-                overwrite = args[1]
+            target_project = (
+                project
+                if project is not None
+                else (
+                    self_or_project
+                    if self_or_project is not None
+                    else kwargs.get("project")
+                )
+            )
+            if project is not None and isinstance(project, bool) and overwrite is None:
+                overwrite = project
 
         if overwrite is None:
             overwrite = instance.overwrite_rebuild_script
@@ -160,29 +170,35 @@ class ProjectPruner:
         return instance._prune_single_project(target_project, overwrite)
 
     def prune_multiple_projects(
-        *args: Any,
+        self_or_projects: Any = None,
+        projects: Optional[Sequence[Project]] = None,
+        overwrite_rebuild_script: Optional[bool] = None,
         **kwargs: Any,
     ) -> PruneSummary:
         instance: ProjectPruner
         target_projects: Optional[Sequence[Project]] = None
-        overwrite: Optional[bool] = kwargs.get("overwrite_rebuild_script")
+        overwrite: Optional[bool] = (
+            overwrite_rebuild_script
+            if overwrite_rebuild_script is not None
+            else kwargs.get("overwrite_rebuild_script")
+        )
 
-        if not args:
-            instance = ProjectPruner()
-            target_projects = kwargs.get("projects")
-        elif isinstance(args[0], ProjectPruner):
-            instance = args[0]
-            if len(args) > 1:
-                target_projects = args[1]
-            else:
-                target_projects = kwargs.get("projects")
-            if len(args) > 2 and overwrite is None:
-                overwrite = args[2]
+        if isinstance(self_or_projects, ProjectPruner):
+            instance = self_or_projects
+            target_projects = projects if projects is not None else kwargs.get("projects")
         else:
             instance = ProjectPruner()
-            target_projects = args[0]
-            if len(args) > 1 and overwrite is None:
-                overwrite = args[1]
+            target_projects = (
+                projects
+                if projects is not None
+                else (
+                    self_or_projects
+                    if self_or_projects is not None
+                    else kwargs.get("projects")
+                )
+            )
+            if projects is not None and isinstance(projects, bool) and overwrite is None:
+                overwrite = projects
 
         if overwrite is None:
             overwrite = instance.overwrite_rebuild_script

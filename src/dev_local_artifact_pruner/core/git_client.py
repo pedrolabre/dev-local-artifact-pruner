@@ -33,7 +33,7 @@ class GitClient:
     ) -> Optional[subprocess.CompletedProcess[str]]:
         try:
             return subprocess.run(
-                ["git", *args],
+                ["git", "-c", "core.quotepath=false", *args],
                 cwd=str(cwd),
                 capture_output=True,
                 text=True,

@@ -40,6 +40,7 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
 │       ├── ui/
 │       │   ├── __init__.py
 │       │   ├── home_screen.py
+│       │   ├── multi_screen.py
 │       │   ├── project_list.py
 │       │   ├── single_screen.py
 │       │   ├── styles.py
@@ -57,6 +58,7 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
     ├── test_git_client.py
     ├── test_home_screen.py
     ├── test_models.py
+    ├── test_multi_screen.py
     ├── test_project_list.py
     ├── test_pruner.py
     ├── test_rebuilder.py

@@ -40,6 +40,7 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
 │       ├── ui/
 │       │   ├── __init__.py
 │       │   ├── home_screen.py
+│       │   ├── single_screen.py
 │       │   ├── styles.py
 │       │   └── terminal.py
 │       └── utils/
@@ -61,5 +62,6 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
     ├── test_safe_delete.py
     ├── test_scaffold.py
     ├── test_scanner.py
+    ├── test_single_screen.py
     └── test_terminal_widget.py
 ```

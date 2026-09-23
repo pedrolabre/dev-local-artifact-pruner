@@ -16,6 +16,9 @@ dependencies = [
     "PySide6>=6.6.0",
 ]
 
+[project.scripts]
+dev-pruner = "dev_local_artifact_pruner.main:main"
+
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0.0",

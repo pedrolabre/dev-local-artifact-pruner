@@ -29,6 +29,7 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
 ├── src/
 │   └── dev_local_artifact_pruner/
 │       ├── __init__.py
+│       ├── main.py
 │       ├── core/
 │       │   ├── __init__.py
 │       │   ├── git_client.py
@@ -40,6 +41,7 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
 │       ├── ui/
 │       │   ├── __init__.py
 │       │   ├── home_screen.py
+│       │   ├── main_window.py
 │       │   ├── multi_screen.py
 │       │   ├── project_list.py
 │       │   ├── single_screen.py
@@ -57,6 +59,8 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
     ├── test_formatters.py
     ├── test_git_client.py
     ├── test_home_screen.py
+    ├── test_main_entrypoint.py
+    ├── test_main_window.py
     ├── test_models.py
     ├── test_multi_screen.py
     ├── test_project_list.py

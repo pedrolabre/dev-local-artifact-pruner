@@ -1,4 +1,14 @@
 from dev_local_artifact_pruner.ui.home_screen import HomeScreen, ModeCard
+from dev_local_artifact_pruner.ui.main_window import (
+    PAGE_INDEX_HOME,
+    PAGE_INDEX_MULTI,
+    PAGE_INDEX_SINGLE,
+    PAGE_TITLES,
+    WINDOW_TITLE_HOME,
+    WINDOW_TITLE_MULTI,
+    WINDOW_TITLE_SINGLE,
+    MainWindow,
+)
 from dev_local_artifact_pruner.ui.multi_screen import MultiProjectScreen, ScanWorker
 from dev_local_artifact_pruner.ui.project_list import ProjectListWidget
 from dev_local_artifact_pruner.ui.single_screen import SingleProjectScreen
@@ -31,12 +41,20 @@ from dev_local_artifact_pruner.ui.terminal import TerminalWidget
 
 __all__ = [
     "HomeScreen",
+    "MainWindow",
     "ModeCard",
     "MultiProjectScreen",
     "ProjectListWidget",
     "ScanWorker",
     "SingleProjectScreen",
     "TerminalWidget",
+    "PAGE_INDEX_HOME",
+    "PAGE_INDEX_SINGLE",
+    "PAGE_INDEX_MULTI",
+    "PAGE_TITLES",
+    "WINDOW_TITLE_HOME",
+    "WINDOW_TITLE_SINGLE",
+    "WINDOW_TITLE_MULTI",
     "COLOR_BG_APP",
     "COLOR_BG_PANEL",
     "COLOR_BG_SURFACE",

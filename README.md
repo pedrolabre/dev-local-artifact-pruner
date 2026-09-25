@@ -26,6 +26,7 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
 .
 ├── pyproject.toml
 ├── README.md
+├── run_desktop.py
 ├── src/
 │   └── dev_local_artifact_pruner/
 │       ├── __init__.py
@@ -73,3 +74,25 @@ Auditar diretórios locais de desenvolvimento, apresentar diagnósticos claros d
     ├── test_single_screen.py
     └── test_terminal_widget.py
 ```
+
+## Como Executar
+
+### 1. Diretamente via Script Python (Recomendado)
+
+Na raiz do repositório, execute:
+
+```bash
+python run_desktop.py
+```
+
+O script configura o caminho do projeto automaticamente e inicia a interface PySide6.
+
+### 2. Via Instalação em Modo Editável
+
+Caso tenha o pacote instalado no seu ambiente virtual:
+
+```bash
+pip install -e .
+dev-pruner
+```
+

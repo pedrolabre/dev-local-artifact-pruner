@@ -8,14 +8,31 @@ PROTECTED_EXTENSIONS: frozenset[str] = frozenset({
     ".sqlite",
     ".db",
     ".sqlite3",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".gif",
+    ".ico",
+    ".webp",
+    ".svg",
+    ".bmp",
+    ".pdf",
+    ".csv",
 })
 
 PROTECTED_PREFIXES: frozenset[str] = frozenset({
     ".env",
+    ".git",
 })
 
 PROTECTED_SPECIAL_NAMES: frozenset[str] = frozenset({
     ".git",
+    "docs",
+    "doc",
+    "documentation",
+    "scripts",
+    "script",
+    "rebuild_dependencies.py",
 })
 
 CLEANABLE_ARTIFACT_NAMES: frozenset[str] = frozenset({

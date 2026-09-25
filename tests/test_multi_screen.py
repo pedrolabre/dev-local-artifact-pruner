@@ -101,8 +101,8 @@ def _wait_for_scan(screen: MultiProjectScreen) -> None:
 def test_multi_screen_initial_state(multi_screen: MultiProjectScreen) -> None:
     assert isinstance(multi_screen, QWidget)
     assert multi_screen.btn_back.text() == "[ ← Voltar ao Início ]"
-    assert multi_screen.path_edit.text() == ""
-    assert "📁" in multi_screen.btn_browse.text()
+    assert "Procurar" in multi_screen.btn_browse.text()
+    assert not multi_screen.btn_browse.icon().isNull()
     assert isinstance(multi_screen.project_list, ProjectListWidget)
     assert isinstance(multi_screen.terminal, TerminalWidget)
 
@@ -377,7 +377,8 @@ def test_multi_screen_request_prune_and_cancel(
     assert "Confirmação necessária: Deseja realmente podar" in multi_screen.terminal.toPlainText()
 
     multi_screen.cancel_prune()
-    assert multi_screen.current_state == ActionState.COMPLETED
+    assert multi_screen.current_state == ActionState.ANALYZED
+    assert multi_screen.btn_prune.isEnabled() is True
     assert "Operação de poda cancelada pelo usuário." in multi_screen.terminal.toPlainText()
 
 
@@ -485,3 +486,25 @@ def test_ui_exports_multi_screen() -> None:
     assert ExportedScanWorker is ScanWorker
     assert "MultiProjectScreen" in __all__
     assert "ScanWorker" in __all__
+
+
+def test_multi_screen_selection_change_during_prune_requested(
+    multi_screen: MultiProjectScreen, sample_projects: list[Project], tmp_path: Path
+) -> None:
+    mock_scanner = MagicMock(spec=ProjectScanner)
+    mock_scanner.scan_multiple_projects.return_value = sample_projects
+    multi_screen.scanner = mock_scanner
+
+    multi_screen.path_edit.setText(str(tmp_path))
+    multi_screen.analyze_projects()
+    _wait_for_scan(multi_screen)
+
+    multi_screen.request_prune()
+    assert multi_screen.current_state == ActionState.PRUNING_REQUESTED
+
+    # Modificar seleção deve retornar para ANALYZED e reabilitar botão Apagar
+    multi_screen._on_selection_changed()
+    assert multi_screen.current_state == ActionState.ANALYZED
+    assert multi_screen.btn_prune.isEnabled() is True
+    assert "Confirmação anterior cancelada" in multi_screen.terminal.toPlainText()
+

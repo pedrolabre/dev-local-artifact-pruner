@@ -75,3 +75,37 @@ def test_main_run_module(monkeypatch: pytest.MonkeyPatch, qapp: QApplication, pr
     with pytest.raises(SystemExit) as excinfo:
         runpy.run_path(str(main_script), run_name="__main__")
     assert excinfo.value.code == 0
+
+
+def test_run_desktop_script(monkeypatch: pytest.MonkeyPatch, qapp: QApplication, project_root: Path) -> None:
+    import runpy
+
+    desktop_script = project_root / "run_desktop.py"
+    assert desktop_script.is_file()
+
+    monkeypatch.setattr(QApplication, "exec", lambda self: 0)
+    monkeypatch.setattr(sys, "argv", ["run_desktop.py"])
+    with pytest.raises(SystemExit) as excinfo:
+        runpy.run_path(str(desktop_script), run_name="__main__")
+    assert excinfo.value.code == 0
+
+
+def test_run_desktop_import_error(monkeypatch: pytest.MonkeyPatch, project_root: Path) -> None:
+    import builtins
+    import runpy
+
+    desktop_script = project_root / "run_desktop.py"
+    real_import = builtins.__import__
+
+    def mock_import(name: str, *args, **kwargs):  # type: ignore[no-untyped-def]
+        if "dev_local_artifact_pruner.main" in name or name == "dev_local_artifact_pruner.main":
+            raise ImportError("Mocked import error")
+        return real_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", mock_import)
+    monkeypatch.setattr(sys, "argv", ["run_desktop.py"])
+
+    with pytest.raises(SystemExit) as excinfo:
+        runpy.run_path(str(desktop_script), run_name="__main__")
+    assert excinfo.value.code == 1
+

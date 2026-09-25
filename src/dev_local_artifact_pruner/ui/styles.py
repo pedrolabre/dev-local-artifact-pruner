@@ -1,3 +1,11 @@
+from pathlib import Path
+
+ASSETS_DIR = Path(__file__).parent / "assets"
+UP_ARROW_PATH = (ASSETS_DIR / "up_arrow.svg").as_posix()
+DOWN_ARROW_PATH = (ASSETS_DIR / "down_arrow.svg").as_posix()
+LEFT_ARROW_PATH = (ASSETS_DIR / "left_arrow.svg").as_posix()
+RIGHT_ARROW_PATH = (ASSETS_DIR / "right_arrow.svg").as_posix()
+
 COLOR_BG_APP = "#121212"
 COLOR_BG_PANEL = "#1e1e1e"
 COLOR_BG_SURFACE = "#252525"
@@ -32,6 +40,128 @@ COLOR_BTN_DANGER_PRESSED = "#8e1a1b"
 COLOR_BTN_DISABLED_BG = "#161b22"
 COLOR_BTN_DISABLED_TEXT = "#484f58"
 
+SCROLLBAR_QSS = f"""
+QScrollBar:vertical {{
+    background-color: {COLOR_BG_TERMINAL};
+    width: 14px;
+    margin: 14px 0 14px 0;
+}}
+
+QScrollBar::handle:vertical {{
+    background-color: {COLOR_BORDER_LIGHT};
+    min-height: 20px;
+    border-radius: 4px;
+}}
+
+QScrollBar::handle:vertical:hover {{
+    background-color: #484f58;
+}}
+
+QScrollBar::sub-line:vertical {{
+    background-color: {COLOR_BG_PANEL};
+    height: 14px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+    border: 1px solid {COLOR_BORDER};
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}}
+
+QScrollBar::sub-line:vertical:hover {{
+    background-color: {COLOR_BG_SURFACE};
+}}
+
+QScrollBar::add-line:vertical {{
+    background-color: {COLOR_BG_PANEL};
+    height: 14px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+    border: 1px solid {COLOR_BORDER};
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}}
+
+QScrollBar::add-line:vertical:hover {{
+    background-color: {COLOR_BG_SURFACE};
+}}
+
+QScrollBar::up-arrow:vertical {{
+    image: url({UP_ARROW_PATH});
+    width: 8px;
+    height: 8px;
+}}
+
+QScrollBar::down-arrow:vertical {{
+    image: url({DOWN_ARROW_PATH});
+    width: 8px;
+    height: 8px;
+}}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {{
+    background: none;
+}}
+
+QScrollBar:horizontal {{
+    background-color: {COLOR_BG_TERMINAL};
+    height: 14px;
+    margin: 0 14px 0 14px;
+}}
+
+QScrollBar::handle:horizontal {{
+    background-color: {COLOR_BORDER_LIGHT};
+    min-width: 20px;
+    border-radius: 4px;
+}}
+
+QScrollBar::handle:horizontal:hover {{
+    background-color: #484f58;
+}}
+
+QScrollBar::sub-line:horizontal {{
+    background-color: {COLOR_BG_PANEL};
+    width: 14px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+    border: 1px solid {COLOR_BORDER};
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}}
+
+QScrollBar::sub-line:horizontal:hover {{
+    background-color: {COLOR_BG_SURFACE};
+}}
+
+QScrollBar::add-line:horizontal {{
+    background-color: {COLOR_BG_PANEL};
+    width: 14px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+    border: 1px solid {COLOR_BORDER};
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}}
+
+QScrollBar::add-line:horizontal:hover {{
+    background-color: {COLOR_BG_SURFACE};
+}}
+
+QScrollBar::left-arrow:horizontal {{
+    image: url({LEFT_ARROW_PATH});
+    width: 8px;
+    height: 8px;
+}}
+
+QScrollBar::right-arrow:horizontal {{
+    image: url({RIGHT_ARROW_PATH});
+    width: 8px;
+    height: 8px;
+}}
+
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {{
+    background: none;
+}}
+"""
+
 TERMINAL_QSS = f"""
 QPlainTextEdit {{
     background-color: {COLOR_BG_TERMINAL};
@@ -44,6 +174,7 @@ QPlainTextEdit {{
     selection-background-color: #1f6feb;
     selection-color: #ffffff;
 }}
+{SCROLLBAR_QSS}
 """
 
 GLOBAL_QSS = f"""
@@ -134,45 +265,7 @@ QListWidget::item:selected {{
     color: #ffffff;
 }}
 
-QScrollBar:vertical {{
-    background-color: {COLOR_BG_TERMINAL};
-    width: 10px;
-    margin: 0px;
-}}
-
-QScrollBar::handle:vertical {{
-    background-color: {COLOR_BORDER_LIGHT};
-    min-height: 20px;
-    border-radius: 5px;
-}}
-
-QScrollBar::handle:vertical:hover {{
-    background-color: #484f58;
-}}
-
-QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
-    height: 0px;
-}}
-
-QScrollBar:horizontal {{
-    background-color: {COLOR_BG_TERMINAL};
-    height: 10px;
-    margin: 0px;
-}}
-
-QScrollBar::handle:horizontal {{
-    background-color: {COLOR_BORDER_LIGHT};
-    min-width: 20px;
-    border-radius: 5px;
-}}
-
-QScrollBar::handle:horizontal:hover {{
-    background-color: #484f58;
-}}
-
-QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {{
-    width: 0px;
-}}
+{SCROLLBAR_QSS}
 """
 
 

@@ -1,13 +1,14 @@
 import html
 from typing import Optional
 
-from PySide6.QtGui import QFont, QTextCursor
+from PySide6.QtGui import QColor, QFont, QTextCharFormat, QTextCursor
 from PySide6.QtWidgets import QPlainTextEdit, QWidget
 
 from dev_local_artifact_pruner.ui.styles import (
     COLOR_STATUS_ERROR,
     COLOR_STATUS_SUCCESS,
     COLOR_STATUS_WARNING,
+    COLOR_TEXT_PRIMARY,
     TERMINAL_QSS,
 )
 
@@ -24,6 +25,9 @@ class TerminalWidget(QPlainTextEdit):
         self.setFont(font)
 
         self.setStyleSheet(TERMINAL_QSS)
+        v_bar = self.verticalScrollBar()
+        if v_bar is not None:
+            v_bar.setSingleStep(15)
 
     def _scroll_to_bottom(self) -> None:
         cursor = self.textCursor()
@@ -34,7 +38,17 @@ class TerminalWidget(QPlainTextEdit):
         if scroll_bar is not None:
             scroll_bar.setValue(scroll_bar.maximum())
 
+    def _reset_char_format(self) -> None:
+        cursor = self.textCursor()
+        cursor.movePosition(QTextCursor.MoveOperation.End)
+        fmt = QTextCharFormat()
+        fmt.setForeground(QColor(COLOR_TEXT_PRIMARY))
+        cursor.setCharFormat(fmt)
+        self.setCurrentCharFormat(fmt)
+        self.setTextCursor(cursor)
+
     def append_line(self, text: str = "") -> None:
+        self._reset_char_format()
         self.appendPlainText(text)
         self._scroll_to_bottom()
 
@@ -46,6 +60,7 @@ class TerminalWidget(QPlainTextEdit):
         self.appendHtml(
             f"<span style='color: {COLOR_STATUS_SUCCESS}; font-family: Consolas, monospace;'>{escaped}</span>"
         )
+        self._reset_char_format()
         self._scroll_to_bottom()
 
     def log_warning(self, text: str) -> None:
@@ -53,6 +68,7 @@ class TerminalWidget(QPlainTextEdit):
         self.appendHtml(
             f"<span style='color: {COLOR_STATUS_WARNING}; font-family: Consolas, monospace;'>{escaped}</span>"
         )
+        self._reset_char_format()
         self._scroll_to_bottom()
 
     def log_error(self, text: str) -> None:
@@ -60,7 +76,9 @@ class TerminalWidget(QPlainTextEdit):
         self.appendHtml(
             f"<span style='color: {COLOR_STATUS_ERROR}; font-family: Consolas, monospace;'>{escaped}</span>"
         )
+        self._reset_char_format()
         self._scroll_to_bottom()
 
     def clear_terminal(self) -> None:
         self.clear()
+        self._reset_char_format()

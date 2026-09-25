@@ -1,9 +1,10 @@
-from typing import Optional
+from typing import Optional, Union
 
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QFont, QMouseEvent
+from PySide6.QtGui import QFont, QMouseEvent, QPixmap
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QVBoxLayout, QWidget
 
+from dev_local_artifact_pruner.ui.icons import get_folder_pixmap, get_multi_folder_pixmap
 from dev_local_artifact_pruner.ui.styles import (
     COLOR_BG_PANEL,
     COLOR_BG_SURFACE,
@@ -36,7 +37,7 @@ class ModeCard(QFrame):
 
     def __init__(
         self,
-        icon: str,
+        icon: Union[str, QPixmap],
         title: str,
         subtitle: str,
         parent: Optional[QWidget] = None,
@@ -52,11 +53,15 @@ class ModeCard(QFrame):
         layout.setSpacing(8)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.icon_label = QLabel(icon, self)
+        self.icon_label = QLabel(self)
         self.icon_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        icon_font = QFont()
-        icon_font.setPointSize(36)
-        self.icon_label.setFont(icon_font)
+        if isinstance(icon, QPixmap):
+            self.icon_label.setPixmap(icon)
+        else:
+            self.icon_label.setText(str(icon))
+            icon_font = QFont()
+            icon_font.setPointSize(36)
+            self.icon_label.setFont(icon_font)
 
         self.title_label = QLabel(title, self)
         self.title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -121,13 +126,13 @@ class HomeScreen(QWidget):
         cards_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.card_single = ModeCard(
-            icon="📁",
+            icon=get_folder_pixmap(size=54),
             title="Projeto",
             subtitle="Analisar uma pasta",
             parent=self,
         )
         self.card_multi = ModeCard(
-            icon="🗂️",
+            icon=get_multi_folder_pixmap(size=54),
             title="Múltiplos",
             subtitle="Analisar vários projetos",
             parent=self,

@@ -101,12 +101,12 @@ def test_home_screen_initial_state(home_screen: HomeScreen) -> None:
     assert home_screen.subtitle_label.font().pointSize() == 12
 
     assert isinstance(home_screen.card_single, ModeCard)
-    assert home_screen.card_single.icon_label.text() == "📁"
+    assert not home_screen.card_single.icon_label.pixmap().isNull()
     assert home_screen.card_single.title_label.text() == "Projeto"
     assert home_screen.card_single.subtitle_label.text() == "Analisar uma pasta"
 
     assert isinstance(home_screen.card_multi, ModeCard)
-    assert home_screen.card_multi.icon_label.text() == "🗂️"
+    assert not home_screen.card_multi.icon_label.pixmap().isNull()
     assert home_screen.card_multi.title_label.text() == "Múltiplos"
     assert home_screen.card_multi.subtitle_label.text() == "Analisar vários projetos"
 

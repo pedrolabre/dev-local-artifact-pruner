@@ -1,5 +1,6 @@
 from typing import List, Optional, Sequence
 from PySide6.QtCore import Qt, Signal
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QHBoxLayout,
     QListWidget,
@@ -10,6 +11,12 @@ from PySide6.QtWidgets import (
 )
 
 from dev_local_artifact_pruner.core.models import EcosystemType, Project
+from dev_local_artifact_pruner.ui.icons import get_folder_icon
+from dev_local_artifact_pruner.ui.styles import (
+    COLOR_ACCENT_BLUE,
+    COLOR_STATUS_ERROR,
+    COLOR_TEXT_MUTED,
+)
 from dev_local_artifact_pruner.utils.formatters import format_bytes
 
 
@@ -41,6 +48,10 @@ class ProjectListWidget(QWidget):
         main_layout.addLayout(top_bar)
 
         self.list_widget = QListWidget()
+        self.list_widget.setVerticalScrollMode(QListWidget.ScrollMode.ScrollPerPixel)
+        v_bar = self.list_widget.verticalScrollBar()
+        if v_bar is not None:
+            v_bar.setSingleStep(15)
         self.items_list = self.list_widget
         self.project_list = self.list_widget
         main_layout.addWidget(self.list_widget)
@@ -81,7 +92,13 @@ class ProjectListWidget(QWidget):
             )
             size_str = format_bytes(size_val)
             status_tag = "[Inativo]" if is_inactive else "[Ativo]"
-            item.setText(f"📁 {project.name}\n    {eco_name} • {size_str} {status_tag}")
+            item.setText(f"{project.name}\n  {eco_name} • {size_str} {status_tag}")
+            icon_color = COLOR_STATUS_ERROR if is_inactive else COLOR_ACCENT_BLUE
+            item.setIcon(get_folder_icon(size=18, color=icon_color))
+            if is_inactive:
+                item.setForeground(QColor(COLOR_STATUS_ERROR))
+            else:
+                item.setForeground(QColor(COLOR_TEXT_MUTED))
             self.list_widget.addItem(item)
 
         self.list_widget.blockSignals(False)

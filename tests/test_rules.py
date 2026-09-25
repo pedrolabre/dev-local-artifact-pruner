@@ -308,3 +308,51 @@ def test_string_and_path_parity() -> None:
 
     assert is_protected_path(str_path) == is_protected_path(path_obj)
     assert is_cleanable_artifact(str_path) == is_cleanable_artifact(path_obj)
+
+
+@pytest.mark.parametrize(
+    "protected_path",
+    [
+        "docs",
+        "doc",
+        "documentation",
+        "scripts",
+        "script",
+        "rebuild_dependencies.py",
+        "nested/docs/guide.pdf",
+        "sub/scripts/deploy.sh",
+        "project/rebuild_dependencies.py",
+    ],
+)
+def test_docs_and_scripts_are_protected(protected_path: str) -> None:
+    p = Path(protected_path)
+    assert is_protected_path(p) is True
+    assert is_cleanable_artifact(p) is False
+
+
+@pytest.mark.parametrize(
+    "protected_path",
+    [
+        ".gitignore",
+        ".gitkeep",
+        ".gitattributes",
+        ".gitmodules",
+        "nested/.gitignore",
+        "nested/.gitkeep",
+        "screen.png",
+        "screenshot.PNG",
+        "logo.jpg",
+        "banner.jpeg",
+        "icon.ico",
+        "image.webp",
+        "diagram.svg",
+        "image.bmp",
+        "manual.pdf",
+        "data.csv",
+    ],
+)
+def test_git_files_and_media_are_protected(protected_path: str) -> None:
+    p = Path(protected_path)
+    assert is_protected_path(p) is True
+    assert is_cleanable_artifact(p) is False
+

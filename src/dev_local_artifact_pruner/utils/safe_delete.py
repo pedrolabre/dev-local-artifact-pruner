@@ -1,9 +1,19 @@
 import os
 import shutil
 import stat
+import sys
 import time
 from pathlib import Path
 from typing import Any, Callable, Union
+
+
+def _to_extended_path(p: Union[Path, str]) -> str:
+    path_str = os.path.abspath(str(p))
+    if sys.platform == "win32" and not path_str.startswith("\\\\?\\"):
+        if path_str.startswith("\\\\"):
+            return f"\\\\?\\UNC\\{path_str[2:]}"
+        return f"\\\\?\\{path_str}"
+    return path_str
 
 
 def _handle_remove_readonly(func: Callable[..., Any], path: str, exc_info: Any) -> None:
@@ -14,11 +24,12 @@ def _handle_remove_readonly(func: Callable[..., Any], path: str, exc_info: Any) 
     func(path)
 
 
-def _rmtree_with_error_handler(path: Path) -> None:
+def _rmtree_with_error_handler(path: Union[Path, str]) -> None:
+    target = _to_extended_path(path)
     try:
-        shutil.rmtree(path, onexc=_handle_remove_readonly)
+        shutil.rmtree(target, onexc=_handle_remove_readonly)
     except TypeError:
-        shutil.rmtree(path, onerror=_handle_remove_readonly)
+        shutil.rmtree(target, onerror=_handle_remove_readonly)
 
 
 def safe_remove_tree(
@@ -27,6 +38,8 @@ def safe_remove_tree(
     base_delay: float = 0.1,
 ) -> bool:
     try:
+        if target_path is None:
+            return False
         if isinstance(target_path, str) and not target_path.strip():
             return False
         path = Path(os.path.abspath(target_path))
@@ -40,26 +53,30 @@ def safe_remove_tree(
 
     for attempt in range(attempts):
         try:
-            if not os.path.lexists(path):
+            ext_path = _to_extended_path(path)
+            if not os.path.lexists(ext_path):
                 return True
 
             if path.is_file() or path.is_symlink() or os.path.islink(path) or getattr(path, "is_junction", lambda: False)():
                 try:
-                    os.chmod(path, stat.S_IWRITE)
+                    os.chmod(ext_path, stat.S_IWRITE)
                 except OSError:
                     pass
                 try:
-                    path.unlink()
+                    os.unlink(ext_path)
                 except OSError:
-                    path.rmdir()
+                    try:
+                        os.rmdir(ext_path)
+                    except OSError:
+                        pass
                 return True
 
             try:
-                os.chmod(path, stat.S_IWRITE)
+                os.chmod(ext_path, stat.S_IWRITE)
             except OSError:
                 pass
 
-            _rmtree_with_error_handler(path)
+            _rmtree_with_error_handler(ext_path)
             return True
         except Exception:
             if attempt < attempts - 1:
@@ -67,4 +84,4 @@ def safe_remove_tree(
             else:
                 return False
 
-    return not os.path.lexists(path)
+    return not os.path.lexists(_to_extended_path(path))

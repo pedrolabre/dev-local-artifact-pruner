@@ -31,6 +31,49 @@ PYTHON_MANIFESTS: frozenset[str] = frozenset({
     "manage.py",
 })
 
+CODE_AND_CONFIG_EXTENSIONS: frozenset[str] = frozenset({
+    ".py", ".pyw", ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs",
+    ".vue", ".svelte", ".c", ".h", ".cpp", ".hpp", ".cc", ".cxx",
+    ".cs", ".go", ".rs", ".java", ".kt", ".kts", ".swift", ".rb",
+    ".php", ".dart", ".scala", ".sql", ".graphql", ".gql", ".proto",
+    ".sh", ".bash", ".zsh", ".bat", ".ps1", ".cmd", ".lua", ".r",
+    ".css", ".scss", ".sass", ".less", ".xml", ".svg",
+    ".json", ".json5", ".jsonc", ".yaml", ".yml", ".toml", ".ini",
+    ".cfg", ".conf", ".lock",
+})
+
+CODE_DIR_NAMES: frozenset[str] = frozenset({
+    "src", "lib", "app", "components", "pages", "utils", "services",
+    "hooks", "models", "tests", "test", "__tests__", "docs", "doc",
+    "documentation", "scripts", "script", "assets", "data", "views",
+    "controllers", "routes", "api", "config", "modules", "packages",
+})
+
+
+def _contains_unversioned_code(directory: Path) -> bool:
+    if directory.name.lower() in CODE_DIR_NAMES:
+        return True
+    try:
+        for root, dirs, files in os.walk(directory):
+            dirs[:] = [d for d in dirs if d.lower() not in CLEANABLE_ARTIFACT_NAMES]
+            for f in files:
+                ext = Path(f).suffix.lower()
+                if ext in CODE_AND_CONFIG_EXTENSIONS or is_protected_path(Path(root) / f):
+                    return True
+    except (OSError, PermissionError):
+        return True
+    return False
+
+
+def _is_code_or_config_file(file_path: Path) -> bool:
+    ext = file_path.suffix.lower()
+    if ext in CODE_AND_CONFIG_EXTENSIONS:
+        return True
+    if file_path.name.lower() in ("dockerfile", "makefile", "procfile", "gemfile"):
+        return True
+    return False
+
+
 
 class ProjectScanner:
     def __init__(self, git_client: Optional[GitClient] = None) -> None:
@@ -132,6 +175,15 @@ class ProjectScanner:
                 try:
                     if not u_path.exists():
                         continue
+                    if is_protected_path(u_path):
+                        continue
+                    if u_path.is_dir():
+                        if not is_cleanable_artifact(u_path) and _contains_unversioned_code(u_path):
+                            continue
+                    else:
+                        if _is_code_or_config_file(u_path) and not is_cleanable_artifact(u_path):
+                            continue
+
                     u_size = get_directory_size_bytes(u_path)
                     art = Artifact(
                         name=u_path.name,

@@ -435,3 +435,55 @@ def test_scan_single_project_inactive_calculation():
             temp_dir.rmdir()
         except OSError:
             pass
+
+
+def test_scan_ignores_docs_scripts_and_unversioned_code(git_repo_factory):
+    repo_dir = git_repo_factory("code_and_docs_proj")
+    (repo_dir / "package.json").write_text('{"name": "test"}', encoding="utf-8")
+    subprocess.run(["git", "add", "package.json"], cwd=str(repo_dir), check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-m", "initial"], cwd=str(repo_dir), check=True, capture_output=True)
+
+    # 1. Pastas docs e scripts
+    docs_dir = repo_dir / "docs"
+    docs_dir.mkdir()
+    (docs_dir / "guide.md").write_text("# Guide", encoding="utf-8")
+    scripts_dir = repo_dir / "scripts"
+    scripts_dir.mkdir()
+    (scripts_dir / "deploy.py").write_text("print('deploy')", encoding="utf-8")
+
+    # 2. rebuild_dependencies.py
+    (repo_dir / "rebuild_dependencies.py").write_text("# rebuild", encoding="utf-8")
+
+    # 3. Código não versionado solto
+    (repo_dir / "LoginLogo.tsx").write_text("export const Logo = () => null;", encoding="utf-8")
+    (repo_dir / "index.ts").write_text("console.log('hi');", encoding="utf-8")
+
+    # 4. Pastas contendo código não versionado
+    account_dir = repo_dir / "account"
+    account_dir.mkdir()
+    (account_dir / "AccountScreen.tsx").write_text("export default null;", encoding="utf-8")
+
+    # 5. Artefatos reais que DEVEM ser identificados
+    nm = repo_dir / "node_modules"
+    nm.mkdir()
+    (nm / "dep.js").write_text("module.exports = 1;", encoding="utf-8")
+    (repo_dir / "temp.log").write_text("log data", encoding="utf-8")
+
+    scanner = ProjectScanner()
+    project = scanner.scan_single_project(repo_dir)
+
+    assert project is not None
+    artifact_names = {a.name for a in project.artifacts}
+
+    # Deve conter os artefatos reais
+    assert "node_modules" in artifact_names
+    assert "temp.log" in artifact_names
+
+    # NÃO deve conter docs, scripts, rebuild_dependencies.py ou código fonte
+    assert "docs" not in artifact_names
+    assert "scripts" not in artifact_names
+    assert "rebuild_dependencies.py" not in artifact_names
+    assert "LoginLogo.tsx" not in artifact_names
+    assert "index.ts" not in artifact_names
+    assert "account" not in artifact_names
+

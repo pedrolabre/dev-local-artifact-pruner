@@ -251,3 +251,22 @@ def test_rmtree_with_error_handler_fallback(tmp_path: Path, monkeypatch: pytest.
     assert calls["onexc"] is True
     assert calls["onerror"] is True
     assert not target.exists()
+
+
+def test_safe_remove_tree_windows_long_path(tmp_path: Path):
+    from dev_local_artifact_pruner.utils.safe_delete import _to_extended_path
+
+    long_dir = tmp_path
+    for i in range(8):
+        long_dir = long_dir / f"nested_folder_with_a_very_long_name_level_{i}"
+
+    ext_long_dir = _to_extended_path(str(long_dir))
+    os.makedirs(ext_long_dir, exist_ok=True)
+    deep_file = os.path.join(ext_long_dir, "deeply_nested_file_with_long_name_sample.txt")
+    with open(deep_file, "w", encoding="utf-8") as f:
+        f.write("deep")
+
+    assert len(str(deep_file)) > 260
+    assert safe_remove_tree(tmp_path / "nested_folder_with_a_very_long_name_level_0") is True
+    assert not (tmp_path / "nested_folder_with_a_very_long_name_level_0").exists()
+

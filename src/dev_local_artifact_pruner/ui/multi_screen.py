@@ -22,6 +22,7 @@ from dev_local_artifact_pruner.core.models import (
 )
 from dev_local_artifact_pruner.core.pruner import ProjectPruner
 from dev_local_artifact_pruner.core.scanner import ProjectScanner
+from dev_local_artifact_pruner.ui.icons import get_folder_icon
 from dev_local_artifact_pruner.ui.project_list import ProjectListWidget
 from dev_local_artifact_pruner.ui.single_screen import ACTION_BUTTON_STATES
 from dev_local_artifact_pruner.ui.terminal import TerminalWidget
@@ -94,7 +95,8 @@ class MultiProjectScreen(QWidget):
         path_row.setSpacing(8)
         self.path_edit = QLineEdit()
         self.path_edit.setPlaceholderText("Selecione ou informe a pasta raiz com múltiplos projetos...")
-        self.btn_browse = self._create_action_btn("📁 Procurar...", self.browse_folder)
+        self.btn_browse = self._create_action_btn("Procurar...", self.browse_folder)
+        self.btn_browse.setIcon(get_folder_icon(16))
         path_row.addWidget(self.path_edit, stretch=1)
         path_row.addWidget(self.btn_browse)
         main_layout.addLayout(path_row)
@@ -218,9 +220,9 @@ class MultiProjectScreen(QWidget):
         self.terminal.append_line(f"    {arts}: {size}")
         sugg = "    -> Sugestão: Limpar (projeto inativo)" if proj.is_inactive else "    -> Sugestão: Manter (projeto ativo)"
         if proj.is_inactive:
-            self.terminal.log_success(sugg)
+            self.terminal.log_error(sugg)
         else:
-            self.terminal.append_line(sugg)
+            self.terminal.log_success(sugg)
         self.terminal.append_line("")
 
     def _on_selection_changed(self) -> None:
@@ -228,6 +230,11 @@ class MultiProjectScreen(QWidget):
             b_str = format_bytes(self.project_list.get_selected_bytes())
             count = len(self.project_list.get_selected_projects())
             self.terminal.append_line(f"Total selecionado atualizado: {b_str} ({count} projeto(s) marcados)")
+            if self.current_state == ActionState.PRUNING_REQUESTED:
+                self.set_action_state(ActionState.ANALYZED)
+                self.terminal.append_line("Seleção alterada. Confirmação anterior cancelada. Clique em [Apagar] para preparar nova poda.")
+            elif self.current_state == ActionState.COMPLETED and count > 0:
+                self.set_action_state(ActionState.ANALYZED)
 
     def _on_project_clicked(self, project: Project) -> None:
         self.terminal.append_line(f"\n--- Detalhes: {project.name} ---\nCaminho: {project.root_path}")
@@ -244,7 +251,10 @@ class MultiProjectScreen(QWidget):
             for art in project.artifacts:
                 self.terminal.append_line(f"  • {art.name} ({format_bytes(art.size_bytes)})")
         self.terminal.append_line(f"Espaço recuperável: {format_bytes(project.reclaimable_bytes)}")
-        self.terminal.append_line(f"Status do projeto: {'Inativo (seguro para poda)' if project.is_inactive else 'Ativo (manter recomendado)'}")
+        if project.is_inactive:
+            self.terminal.log_error("Status do projeto: Inativo (seguro para poda)")
+        else:
+            self.terminal.log_success("Status do projeto: Ativo (manter recomendado)")
 
     def request_prune(self) -> None:
         selected = self.project_list.get_selected_projects()
@@ -278,6 +288,8 @@ class MultiProjectScreen(QWidget):
             if summary.rebuild_scripts_created > 0:
                 self.terminal.append_line(f"Scripts de reconstrução gerados: {summary.rebuild_scripts_created} arquivo(s) rebuild_dependencies.py")
         else:
+            if summary.projects_pruned > 0:
+                self.terminal.log_success(f"Poda parcial: {summary.projects_pruned} projeto(s) podados com sucesso | Espaço liberado: {format_bytes(summary.bytes_reclaimed)}")
             for err in summary.errors:
                 self.terminal.log_error(f"Erro durante a poda: {err}")
         self.set_action_state(ActionState.COMPLETED)
@@ -285,7 +297,8 @@ class MultiProjectScreen(QWidget):
 
     def cancel_prune(self) -> None:
         self.terminal.append_line("\nOperação de poda cancelada pelo usuário.")
-        self.set_action_state(ActionState.COMPLETED)
+        self.terminal.append_line("A seleção pode ser ajustada e você pode clicar em [Apagar] novamente.")
+        self.set_action_state(ActionState.ANALYZED)
 
     def _on_back_clicked(self) -> None:
         self._stop_worker()

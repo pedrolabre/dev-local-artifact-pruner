@@ -66,8 +66,8 @@ def single_screen(qapp: QApplication) -> SingleProjectScreen:
 def test_single_screen_initial_state(single_screen: SingleProjectScreen) -> None:
     assert isinstance(single_screen, QWidget)
     assert single_screen.btn_back.text() == "[ ← Voltar ao Início ]"
-    assert single_screen.path_edit.text() == ""
-    assert "📁" in single_screen.btn_browse.text()
+    assert "Procurar" in single_screen.btn_browse.text()
+    assert not single_screen.btn_browse.icon().isNull()
     assert isinstance(single_screen.terminal, TerminalWidget)
 
     assert single_screen.current_state == ActionState.INITIAL
@@ -315,11 +315,29 @@ def test_request_prune_transitions_to_pruning_requested(
     assert "mock_project" in plain_text
 
 
-def test_cancel_prune_transitions_to_completed(
+def test_cancel_prune_transitions_to_analyzed_when_project_has_artifacts(
     single_screen: SingleProjectScreen,
     dummy_project: Project,
 ) -> None:
     single_screen.current_project = dummy_project
+    single_screen.set_action_state(ActionState.PRUNING_REQUESTED)
+
+    single_screen.cancel_prune()
+
+    assert single_screen.current_state == ActionState.ANALYZED
+    assert single_screen.btn_analyze.isEnabled() is True
+    assert single_screen.btn_prune.isEnabled() is True
+    assert single_screen.btn_confirm.isEnabled() is False
+    assert single_screen.btn_cancel.isEnabled() is False
+
+    plain_text = single_screen.terminal.toPlainText()
+    assert "Operação de poda cancelada pelo usuário" in plain_text
+
+
+def test_cancel_prune_transitions_to_completed_when_no_artifacts(
+    single_screen: SingleProjectScreen,
+) -> None:
+    single_screen.current_project = None
     single_screen.set_action_state(ActionState.PRUNING_REQUESTED)
 
     single_screen.cancel_prune()
@@ -330,8 +348,6 @@ def test_cancel_prune_transitions_to_completed(
     assert single_screen.btn_confirm.isEnabled() is False
     assert single_screen.btn_cancel.isEnabled() is False
 
-    plain_text = single_screen.terminal.toPlainText()
-    assert "Operação de poda cancelada pelo usuário" in plain_text
 
 
 def test_confirm_prune_success(

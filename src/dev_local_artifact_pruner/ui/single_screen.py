@@ -21,6 +21,7 @@ from dev_local_artifact_pruner.core.models import (
 )
 from dev_local_artifact_pruner.core.pruner import ProjectPruner
 from dev_local_artifact_pruner.core.scanner import ProjectScanner
+from dev_local_artifact_pruner.ui.icons import get_folder_icon
 from dev_local_artifact_pruner.ui.terminal import TerminalWidget
 from dev_local_artifact_pruner.utils.formatters import (
     format_bytes,
@@ -76,7 +77,8 @@ class SingleProjectScreen(QWidget):
         path_row.setSpacing(8)
         self.path_edit = QLineEdit()
         self.path_edit.setPlaceholderText("Selecione ou informe o caminho do projeto...")
-        self.btn_browse = QPushButton("📁 Procurar...")
+        self.btn_browse = QPushButton("Procurar...")
+        self.btn_browse.setIcon(get_folder_icon(16))
         self.btn_browse.setCursor(Qt.CursorShape.PointingHandCursor)
         self.btn_browse.clicked.connect(self.browse_folder)
         path_row.addWidget(self.path_edit, stretch=1)
@@ -206,11 +208,11 @@ class SingleProjectScreen(QWidget):
 
             if project.is_inactive:
                 days_inactive = project.git_info.days_inactive if project.git_info else 0
-                self.terminal.log_success(
+                self.terminal.log_error(
                     f"Sugestão: Inativo há mais de 60 dias ({days_inactive} dias). Seguro para poda."
                 )
             else:
-                self.terminal.append_line("Sugestão: Projeto ativo ou recente.")
+                self.terminal.log_success("Sugestão: Projeto ativo ou recente (manter recomendado).")
 
             self.terminal.append_line("Aguardando ação: clique em [Apagar] para preparar a poda.")
             self.set_action_state(ActionState.ANALYZED)
@@ -266,4 +268,7 @@ class SingleProjectScreen(QWidget):
     def cancel_prune(self) -> None:
         self.terminal.append_line("")
         self.terminal.log_warning("Operação de poda cancelada pelo usuário.")
-        self.set_action_state(ActionState.COMPLETED)
+        if self.current_project and self.current_project.artifacts:
+            self.set_action_state(ActionState.ANALYZED)
+        else:
+            self.set_action_state(ActionState.COMPLETED)

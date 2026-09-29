@@ -1,0 +1,514 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 539" width="100%" height="100%">
+  <defs>
+    <style>
+      <![CDATA[
+      @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap');
+
+      * {
+        box-sizing: border-box;
+      }
+      text {
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Tahoma, Arial, sans-serif;
+        user-select: none;
+      }
+      .mono {
+        font-family: Consolas, 'Courier New', monospace;
+      }
+
+      /* ================= ANIMATION TIMELINE (18s Loop) ================= */
+
+      /* View Switching */
+      #view-home { animation: animHome 18s infinite; }
+      #view-multi { animation: animMulti 18s infinite; }
+
+      @keyframes animHome {
+        0%, 13.5% { opacity: 1; pointer-events: auto; visibility: visible; }
+        14%, 97.5% { opacity: 0; pointer-events: none; visibility: hidden; }
+        98%, 100% { opacity: 1; pointer-events: auto; visibility: visible; }
+      }
+      @keyframes animMulti {
+        0%, 13.5% { opacity: 0; pointer-events: none; visibility: hidden; }
+        14%, 97.5% { opacity: 1; pointer-events: auto; visibility: visible; }
+        98%, 100% { opacity: 0; pointer-events: none; visibility: hidden; }
+      }
+
+      /* Home Screen Multi Card Hover */
+      #card-multi { animation: animCardMulti 18s infinite; }
+      @keyframes animCardMulti {
+        0%, 5% { fill: #1e1e1e; stroke: #2d2d2d; }
+        7%, 13.5% { fill: #252525; stroke: #58a6ff; }
+        14%, 100% { fill: #1e1e1e; stroke: #2d2d2d; }
+      }
+
+      /* Button Voltar ao Inicio Hover/Active */
+      #btn-back-bg { animation: animBtnBack 18s infinite; }
+      @keyframes animBtnBack {
+        0%, 86% { fill: #21262d; stroke: #30363d; }
+        87%, 96.5% { fill: #30363d; stroke: #58a6ff; }
+        97%, 100% { fill: #21262d; stroke: #30363d; }
+      }
+
+      /* Window Title Bar text transition */
+      #titlebar-text { animation: animTitleText 18s infinite; }
+      @keyframes animTitleText {
+        0%, 13.5% { opacity: 1; }
+        14%, 97.5% { opacity: 0; }
+        98%, 100% { opacity: 1; }
+      }
+      #titlebar-text-multi { animation: animTitleTextMulti 18s infinite; }
+      @keyframes animTitleTextMulti {
+        0%, 13.5% { opacity: 0; }
+        14%, 97.5% { opacity: 1; }
+        98%, 100% { opacity: 0; }
+      }
+
+      /* Input Typing Animation */
+      #input-typed-text { animation: animInputType 18s infinite; }
+      @keyframes animInputType {
+        0%, 18% { opacity: 0; }
+        20%, 97.5% { opacity: 1; }
+        98%, 100% { opacity: 0; }
+      }
+      #input-placeholder { animation: animInputPlaceholder 18s infinite; }
+      @keyframes animInputPlaceholder {
+        0%, 18% { opacity: 1; }
+        20%, 97.5% { opacity: 0; }
+        98%, 100% { opacity: 1; }
+      }
+
+      /* Terminal States */
+      #term-state-initial { animation: animTermInit 18s infinite; }
+      @keyframes animTermInit {
+        0%, 26% { opacity: 1; }
+        27%, 100% { opacity: 0; }
+      }
+      #term-state-scanning { animation: animTermScan 18s infinite; }
+      @keyframes animTermScan {
+        0%, 26% { opacity: 0; }
+        27%, 38% { opacity: 1; }
+        39%, 100% { opacity: 0; }
+      }
+      #term-state-results { animation: animTermResults 18s infinite; }
+      @keyframes animTermResults {
+        0%, 38% { opacity: 0; }
+        39%, 54% { opacity: 1; }
+        55%, 100% { opacity: 0; }
+      }
+      #term-state-confirm { animation: animTermConfirm 18s infinite; }
+      @keyframes animTermConfirm {
+        0%, 54% { opacity: 0; }
+        55%, 68% { opacity: 1; }
+        69%, 100% { opacity: 0; }
+      }
+      #term-state-success { animation: animTermSuccess 18s infinite; }
+      @keyframes animTermSuccess {
+        0%, 68% { opacity: 0; }
+        69%, 97.5% { opacity: 1; }
+        98%, 100% { opacity: 0; }
+      }
+
+      /* Terminal Scrollbar Handle Movement */
+      #term-scroll-handle { animation: animTermScroll 18s infinite; }
+      @keyframes animTermScroll {
+        0%, 54% { y: 160px; height: 120px; }
+        55%, 68% { y: 220px; height: 90px; }
+        69%, 97.5% { y: 270px; height: 75px; }
+        98%, 100% { y: 160px; height: 120px; }
+      }
+
+      /* Project List Items Visibility */
+      #list-items-container { animation: animListItems 18s infinite; }
+      @keyframes animListItems {
+        0%, 38% { opacity: 0; }
+        39%, 97.5% { opacity: 1; }
+        98%, 100% { opacity: 0; }
+      }
+
+      /* Selection State of Inactive Project */
+      #inactive-checkbox-box { animation: animInactiveCheck 18s infinite; }
+      @keyframes animInactiveCheck {
+        0%, 46% { fill: #121212; stroke: #3a3a3a; }
+        47%, 97.5% { fill: #da3633; stroke: #f85149; }
+        98%, 100% { fill: #121212; stroke: #3a3a3a; }
+      }
+      #inactive-checkbox-mark { animation: animInactiveMark 18s infinite; }
+      @keyframes animInactiveMark {
+        0%, 46% { opacity: 0; }
+        47%, 97.5% { opacity: 1; }
+        98%, 100% { opacity: 0; }
+      }
+
+      /* Confirm Button State */
+      #btn-confirmar-bg { animation: animBtnConfirmBg 18s infinite; }
+      @keyframes animBtnConfirmBg {
+        0%, 54% { fill: #161b22; stroke: #21262d; }
+        55%, 65% { fill: #21262d; stroke: #30363d; }
+        65.5%, 68% { fill: #238636; stroke: #2ea043; }
+        68.5%, 97.5% { fill: #161b22; stroke: #21262d; }
+        98%, 100% { fill: #161b22; stroke: #21262d; }
+      }
+      #btn-confirmar-lbl { animation: animBtnConfirmLbl 18s infinite; }
+      @keyframes animBtnConfirmLbl {
+        0%, 54% { fill: #484f58; }
+        55%, 65% { fill: #e6edf3; }
+        65.5%, 68% { fill: #ffffff; font-weight: bold; }
+        68.5%, 100% { fill: #484f58; }
+      }
+
+      /* Cursor Motion across complete cycle including loop back to Home */
+      #cursor-group { animation: animCursorMove 18s infinite cubic-bezier(0.25, 0.1, 0.25, 1); }
+      @keyframes animCursorMove {
+        /* 0s: Home screen start */
+        0%, 3%    { transform: translate(512px, 440px); }
+        /* Move to Multi card (605, 312) & click */
+        7%, 12%   { transform: translate(605px, 312px); }
+        /* Move to input box (120, 100) & click */
+        15%, 20%  { transform: translate(120px, 100px); }
+        /* Move to Analisar button (45, 505) & click */
+        23%, 26%  { transform: translate(45px, 505px); }
+        /* Scanning: move to center */
+        30%, 37%  { transform: translate(520px, 280px); }
+        /* Click inactive project checkbox (32, 390) */
+        43%, 47%  { transform: translate(32px, 390px); }
+        /* Click Apagar button (107, 505) */
+        51%, 54%  { transform: translate(107px, 505px); }
+        /* Move to Confirmar button (889, 505) & click */
+        61%, 67%  { transform: translate(889px, 505px); }
+        /* Pause near terminal to read success output */
+        72%, 84%  { transform: translate(750px, 420px); }
+        /* Move up to [ <- Voltar ao Inicio ] button (72, 46) */
+        89%, 95%  { transform: translate(72px, 46px); }
+        /* Loop back to Home screen */
+        98%, 100% { transform: translate(512px, 440px); }
+      }
+
+      /* Click Ripple Circle */
+      #cursor-ripple { animation: animCursorRipple 18s infinite; }
+      @keyframes animCursorRipple {
+        /* Click Multi Card (11%) */
+        0%, 10.5%  { r: 0px; opacity: 0; }
+        11%        { r: 3px; opacity: 0.9; }
+        12.5%      { r: 16px; opacity: 0; }
+        /* Click Input Box (19%) */
+        13%, 18.5% { r: 0px; opacity: 0; }
+        19%        { r: 3px; opacity: 0.9; }
+        20.5%      { r: 16px; opacity: 0; }
+        /* Click Analisar (25%) */
+        21%, 24.5% { r: 0px; opacity: 0; }
+        25%        { r: 3px; opacity: 0.9; }
+        26.5%      { r: 16px; opacity: 0; }
+        /* Click Inactive Checkbox (46%) */
+        27%, 45.5% { r: 0px; opacity: 0; }
+        46%        { r: 3px; opacity: 0.9; }
+        47.5%      { r: 16px; opacity: 0; }
+        /* Click Apagar (53%) */
+        48%, 52.5% { r: 0px; opacity: 0; }
+        53%        { r: 3px; opacity: 0.9; }
+        54.5%      { r: 16px; opacity: 0; }
+        /* Click Confirmar (66%) */
+        55%, 65.5% { r: 0px; opacity: 0; }
+        66%        { r: 3px; opacity: 0.9; }
+        67.5%      { r: 16px; opacity: 0; }
+        /* Click Voltar ao Inicio (94%) */
+        68%, 93.5% { r: 0px; opacity: 0; }
+        94%        { r: 3px; opacity: 0.9; }
+        95.5%      { r: 16px; opacity: 0; }
+        96%, 100%  { r: 0px; opacity: 0; }
+      }
+      ]]>
+    </style>
+  </defs>
+
+  <!-- ================= WINDOW FRAME & TITLEBAR (Windows 11 Native Style) ================= -->
+  <!-- App Background -->
+  <rect x="0" y="0" width="1024" height="539" fill="#121212" />
+
+  <!-- Native Title Bar -->
+  <g id="window-titlebar">
+    <rect x="0" y="0" width="1024" height="20" fill="#eef1f5" />
+    <line x1="0" y1="20" x2="1024" y2="20" stroke="#d0d7de" stroke-width="0.8" />
+    <!-- App Icon (Green Square / Pruner) -->
+    <rect x="7" y="4" width="11" height="11" rx="1" fill="#2ea043" />
+    <path d="M9 7 L12 10 L16 5" fill="none" stroke="#ffffff" stroke-width="1.2" />
+
+    <!-- Window Titles -->
+    <text id="titlebar-text" x="25" y="14" fill="#1b1f24" font-size="11" font-weight="400">dev-local-artifact-pruner</text>
+    <text id="titlebar-text-multi" x="25" y="14" fill="#1b1f24" font-size="11" font-weight="400">dev-local-artifact-pruner - M&#250;ltiplos Projetos</text>
+
+    <!-- Windows Window Controls -->
+    <!-- Minimize -->
+    <line x1="935" y1="10" x2="945" y2="10" stroke="#1b1f24" stroke-width="1" />
+    <!-- Maximize -->
+    <rect x="965" y="6" width="9" height="9" fill="none" stroke="#1b1f24" stroke-width="1" />
+    <!-- Close -->
+    <path d="M 995 6 L 1003 14 M 1003 6 L 995 14" stroke="#1b1f24" stroke-width="1" />
+  </g>
+
+  <!-- ================= VIEW 1: HOME SCREEN ================= -->
+  <g id="view-home">
+    <text x="512" y="170" text-anchor="middle" fill="#e6edf3" font-size="22" font-weight="700">dev-local-artifact-pruner</text>
+    <text x="512" y="198" text-anchor="middle" fill="#8b949e" font-size="12">Selecione o tipo de an&#225;lise</text>
+
+    <!-- Card 1: Projeto Individual -->
+    <g id="card-single-group">
+      <rect x="337" y="242" width="164" height="140" rx="12" fill="#1e1e1e" stroke="#2d2d2d" stroke-width="2" />
+      <!-- Folder Icon -->
+      <g transform="translate(395, 260) scale(2.0)">
+        <path d="M3 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-8l-2-2H3z" fill="#58a6ff" />
+        <path d="M1 10h22" stroke="#ffffff" stroke-width="1.2" opacity="0.25" />
+      </g>
+      <text x="419" y="338" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">Projeto</text>
+      <text x="419" y="358" text-anchor="middle" fill="#8b949e" font-size="10">Analisar uma pasta</text>
+    </g>
+
+    <!-- Card 2: M&#250;ltiplos Projetos (Hover Animated) -->
+    <g id="card-multi-group">
+      <rect id="card-multi" x="523" y="242" width="164" height="140" rx="12" fill="#1e1e1e" stroke="#2d2d2d" stroke-width="2" />
+      <!-- Multi Folder Icon -->
+      <g transform="translate(581, 260) scale(2.0)">
+        <path d="M6 3a2 2 0 0 0-2 2v1h15a2 2 0 0 1 2 2v8h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-8l-2-2H6z" fill="#58a6ff" opacity="0.45" />
+        <path d="M3 7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-8l-2-2H3z" fill="#58a6ff" />
+        <path d="M1 12h22" stroke="#ffffff" stroke-width="1.2" opacity="0.25" />
+      </g>
+      <text x="605" y="338" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="700">M&#250;ltiplos</text>
+      <text x="605" y="358" text-anchor="middle" fill="#8b949e" font-size="10">Analisar v&#225;rios projetos</text>
+    </g>
+  </g>
+
+  <!-- ================= VIEW 2: MULTI PROJECTS SCREEN ================= -->
+  <g id="view-multi">
+    <!-- Top Back Button [Voltar ao Inicio] -->
+    <g id="btn-back-group">
+      <rect id="btn-back-bg" x="16" y="35" width="112" height="22" rx="4" fill="#21262d" stroke="#30363d" stroke-width="1" />
+      <text x="72" y="50" text-anchor="middle" fill="#e6edf3" font-size="11" font-weight="500">[ &#8592; Voltar ao In&#237;cio ]</text>
+    </g>
+
+    <!-- Path Label -->
+    <text x="16" y="78" fill="#e6edf3" font-size="12" font-weight="600">Pasta Raiz (contendo projetos):</text>
+
+    <!-- Input Box -->
+    <rect x="16" y="88" width="885" height="24" rx="4" fill="#1e1e1e" stroke="#2d2d2d" stroke-width="1" />
+    <text id="input-placeholder" x="25" y="104" fill="#6e7681" font-size="11">Selecione ou informe a pasta raiz com m&#250;ltiplos projetos...</text>
+    <text id="input-typed-text" x="25" y="104" fill="#e6edf3" font-size="11">C:/Users/developer/Projects</text>
+
+    <!-- Browse Button -->
+    <rect x="908" y="88" width="82" height="24" rx="4" fill="#21262d" stroke="#30363d" stroke-width="1" />
+    <g transform="translate(916, 93) scale(0.65)">
+      <path d="M3 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-8l-2-2H3z" fill="#58a6ff" />
+      <path d="M1 10h22" stroke="#ffffff" stroke-width="1.2" opacity="0.25" />
+    </g>
+    <text x="955" y="104" text-anchor="middle" fill="#e6edf3" font-size="11">Procurar...</text>
+
+    <!-- Left Column: Pastas com Artefatos -->
+    <g id="left-column">
+      <text x="16" y="134" fill="#8b949e" font-size="10" font-weight="700">PASTAS COM ARTEFATOS ENCONTRADOS:</text>
+      <!-- Buttons -->
+      <rect x="16" y="142" width="235" height="22" rx="4" fill="#21262d" stroke="#30363d" stroke-width="1" />
+      <text x="133" y="157" text-anchor="middle" fill="#e6edf3" font-size="11">[ Marcar Inativos ]</text>
+
+      <rect x="258" y="142" width="242" height="22" rx="4" fill="#21262d" stroke="#30363d" stroke-width="1" />
+      <text x="379" y="157" text-anchor="middle" fill="#e6edf3" font-size="11">[ Desmarcar Todos ]</text>
+
+      <!-- List Container -->
+      <rect x="16" y="170" width="484" height="310" rx="4" fill="#1e1e1e" stroke="#2d2d2d" stroke-width="1" />
+      
+      <!-- List Scrollbar -->
+      <rect x="486" y="172" width="12" height="306" fill="#1e1e1e" />
+      <rect x="489" y="210" width="6" height="85" rx="3" fill="#3a3a3a" />
+
+      <!-- List Items (Visible after scan) -->
+      <g id="list-items-container">
+        <!-- Item 1: api-gateway-service -->
+        <g transform="translate(16, 175)">
+          <rect x="10" y="9" width="13" height="13" rx="2" fill="#121212" stroke="#3a3a3a" stroke-width="1" />
+          <g transform="translate(28, 7) scale(0.75)">
+            <path d="M3 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-8l-2-2H3z" fill="#58a6ff" />
+          </g>
+          <text x="50" y="15" fill="#8b949e" font-size="11">api-gateway-service</text>
+          <text x="50" y="28" fill="#8b949e" font-size="10">Node.js &#8226; 142.30 MB [Ativo]</text>
+        </g>
+
+        <!-- Item 2: data-pipeline-runner -->
+        <g transform="translate(16, 215)">
+          <rect x="10" y="9" width="13" height="13" rx="2" fill="#121212" stroke="#3a3a3a" stroke-width="1" />
+          <g transform="translate(28, 7) scale(0.75)">
+            <path d="M3 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-8l-2-2H3z" fill="#58a6ff" />
+          </g>
+          <text x="50" y="15" fill="#8b949e" font-size="11">data-pipeline-runner</text>
+          <text x="50" y="28" fill="#8b949e" font-size="10">Python &#8226; 84.10 MB [Ativo]</text>
+        </g>
+
+        <!-- Item 3: frontend-dashboard -->
+        <g transform="translate(16, 255)">
+          <rect x="10" y="9" width="13" height="13" rx="2" fill="#121212" stroke="#3a3a3a" stroke-width="1" />
+          <g transform="translate(28, 7) scale(0.75)">
+            <path d="M3 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-8l-2-2H3z" fill="#58a6ff" />
+          </g>
+          <text x="50" y="15" fill="#8b949e" font-size="11">frontend-dashboard</text>
+          <text x="50" y="28" fill="#8b949e" font-size="10">Node.js &#8226; 210.50 MB [Ativo]</text>
+        </g>
+
+        <!-- Item 4: mobile-client-app -->
+        <g transform="translate(16, 295)">
+          <rect x="10" y="9" width="13" height="13" rx="2" fill="#121212" stroke="#3a3a3a" stroke-width="1" />
+          <g transform="translate(28, 7) scale(0.75)">
+            <path d="M3 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-8l-2-2H3z" fill="#58a6ff" />
+          </g>
+          <text x="50" y="15" fill="#8b949e" font-size="11">mobile-client-app</text>
+          <text x="50" y="28" fill="#8b949e" font-size="10">Node.js &#8226; 356.94 MB [Ativo]</text>
+        </g>
+
+        <!-- Item 5: cloud-storage-helper -->
+        <g transform="translate(16, 335)">
+          <rect x="10" y="9" width="13" height="13" rx="2" fill="#121212" stroke="#3a3a3a" stroke-width="1" />
+          <g transform="translate(28, 7) scale(0.75)">
+            <path d="M3 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-8l-2-2H3z" fill="#58a6ff" />
+          </g>
+          <text x="50" y="15" fill="#8b949e" font-size="11">cloud-storage-helper</text>
+          <text x="50" y="28" fill="#8b949e" font-size="10">Python &#8226; 1.86 MB [Ativo]</text>
+        </g>
+
+        <!-- Item 6: legacy-billing-module (INACTIVE - Checked in RED) -->
+        <g transform="translate(16, 375)">
+          <rect id="inactive-checkbox-box" x="10" y="9" width="13" height="13" rx="2" fill="#121212" stroke="#3a3a3a" stroke-width="1" />
+          <path id="inactive-checkbox-mark" d="M12 15 L15 19 L21 11" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          <g transform="translate(28, 7) scale(0.75)">
+            <path d="M3 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-8l-2-2H3z" fill="#f85149" />
+          </g>
+          <text x="50" y="15" fill="#f85149" font-size="11" font-weight="700">legacy-billing-module</text>
+          <text x="50" y="28" fill="#f85149" font-size="10">Node.js &#8226; 418.47 MB [Inativo]</text>
+        </g>
+
+        <!-- Item 7: docs-static-site -->
+        <g transform="translate(16, 415)">
+          <rect x="10" y="9" width="13" height="13" rx="2" fill="#121212" stroke="#3a3a3a" stroke-width="1" />
+          <g transform="translate(28, 7) scale(0.75)">
+            <path d="M3 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-8l-2-2H3z" fill="#58a6ff" />
+          </g>
+          <text x="50" y="15" fill="#8b949e" font-size="11">docs-static-site</text>
+          <text x="50" y="28" fill="#8b949e" font-size="10">Desconhecido &#8226; 60.34 MB [Ativo]</text>
+        </g>
+      </g>
+    </g>
+
+    <!-- Right Column: Terminal Window -->
+    <g id="right-column">
+      <text x="518" y="134" fill="#8b949e" font-size="10" font-weight="700">TERMINAL / SUGEST&#213;ES E LOGS:</text>
+      <!-- Terminal Background Frame -->
+      <rect x="518" y="142" width="490" height="338" rx="4" fill="#0d1117" stroke="#2d2d2d" stroke-width="1" />
+
+      <!-- Terminal Scrollbar with Animated Handle -->
+      <rect x="994" y="144" width="12" height="334" fill="#0d1117" />
+      <rect id="term-scroll-handle" x="996" y="160" width="8" height="120" rx="4" fill="#3a3a3a" />
+
+      <!-- Terminal State 1: Initial Empty Screen -->
+      <g id="term-state-initial" class="mono" font-size="11">
+        <text x="532" y="166" fill="#8b949e">dev-local-artifact-pruner - Modo M&#250;ltiplos Projetos</text>
+        <text x="532" y="184" fill="#8b949e">Selecione a pasta raiz e clique em [Analisar].</text>
+      </g>
+
+      <!-- Terminal State 2: Background Scanning -->
+      <g id="term-state-scanning" class="mono" font-size="11">
+        <text x="532" y="166" fill="#58a6ff" font-weight="700">project-pruner &gt; scan-all Projects</text>
+        <text x="532" y="184" fill="#8b949e">Pasta raiz: C:\Users\developer\Projects</text>
+        <text x="532" y="202" fill="#e6edf3">Varrendo projetos em segundo plano...</text>
+      </g>
+
+      <!-- Terminal State 3: Analysis Results -->
+      <g id="term-state-results" class="mono" font-size="10">
+        <text x="532" y="164" fill="#e6edf3">&#8226; api-gateway-service:</text>
+        <text x="550" y="178" fill="#8b949e">Ativo h&#225; 3 dias (recente).</text>
+        <text x="550" y="192" fill="#8b949e">node_modules: 142.30 MB</text>
+        <text x="532" y="206" fill="#3fb950">-&gt; Sugest&#227;o: Manter (projeto ativo)</text>
+
+        <text x="532" y="226" fill="#e6edf3">&#8226; mobile-client-app:</text>
+        <text x="550" y="240" fill="#8b949e">Ativo h&#225; 6 meses (com altera&#231;&#245;es pendentes).</text>
+        <text x="550" y="254" fill="#8b949e">node_modules: 356.94 MB</text>
+        <text x="532" y="268" fill="#3fb950">-&gt; Sugest&#227;o: Manter (projeto ativo)</text>
+
+        <text x="532" y="288" fill="#f85149" font-weight="700">&#8226; legacy-billing-module:</text>
+        <text x="550" y="302" fill="#8b949e">Inativo h&#225; 4 meses.</text>
+        <text x="550" y="316" fill="#8b949e">node_modules: 418.47 MB</text>
+        <text x="532" y="330" fill="#f85149">-&gt; Sugest&#227;o: Limpar (projeto inativo)</text>
+
+        <text x="532" y="354" fill="#e6edf3" font-size="11">Total selecionado: 418.47 MB (1 projeto(s))</text>
+        <text x="532" y="372" fill="#8b949e">Aguardando a&#231;&#227;o: marque/desmarque projetos e clique em [Apagar].</text>
+      </g>
+
+      <!-- Terminal State 4: Confirmation Prompt -->
+      <g id="term-state-confirm" class="mono" font-size="10">
+        <text x="532" y="160" fill="#8b949e">Total selecionado atualizado: 418.47 MB (1 projeto(s) marcados)</text>
+        <text x="532" y="178" fill="#8b949e">--- Detalhes: legacy-billing-module ---</text>
+        <text x="532" y="194" fill="#8b949e">Caminho: C:\Users\developer\Projects\legacy-billing-module</text>
+        <text x="532" y="210" fill="#8b949e">Sistema: Node.js (package.json detectado)</text>
+        <text x="532" y="226" fill="#8b949e">&#218;ltimo commit: h&#225; 4 meses | Git: limpo</text>
+        <text x="532" y="242" fill="#8b949e">Artefatos eleg&#237;veis:</text>
+        <text x="546" y="256" fill="#8b949e">&#8226; node_modules (418.47 MB)</text>
+        <text x="532" y="272" fill="#8b949e">Espa&#231;o recuper&#225;vel: 418.47 MB</text>
+        <text x="532" y="288" fill="#f85149">Status do projeto: Inativo (seguro para poda)</text>
+
+        <text x="532" y="312" fill="#d29922" font-size="11" font-weight="700">Confirma&#231;&#227;o necess&#225;ria: Deseja realmente podar os artefatos de 1 projeto(s)</text>
+        <text x="532" y="328" fill="#d29922" font-size="11" font-weight="700">selecionado(s)?</text>
+        <text x="532" y="344" fill="#e6edf3" font-size="11">Espa&#231;o total a ser liberado: 418.47 MB</text>
+        <text x="546" y="360" fill="#e6edf3">&#8226; legacy-billing-module (418.47 MB)</text>
+        <text x="532" y="376" fill="#8b949e">Clique em [Confirmar] para executar ou [Cancelar] para desistir.</text>
+      </g>
+
+      <!-- Terminal State 5: Pruning Success (EXACT to Print: Clean text log with Green completion line!) -->
+      <g id="term-state-success" class="mono" font-size="10">
+        <text x="532" y="160" fill="#8b949e">Total selecionado: 418.47 MB (1 projeto(s))</text>
+        <text x="532" y="176" fill="#8b949e">Aguardando a&#231;&#227;o: marque/desmarque projetos e clique em [Apagar]...</text>
+        <text x="532" y="192" fill="#8b949e">Total selecionado atualizado: 418.47 MB (1 projeto(s) marcados)</text>
+        <text x="532" y="210" fill="#8b949e">--- Detalhes: legacy-billing-module ---</text>
+        <text x="532" y="226" fill="#8b949e">Caminho: C:\Users\developer\Projects\legacy-billing-module</text>
+        <text x="532" y="242" fill="#8b949e">Sistema: Node.js (package.json detectado)</text>
+        <text x="532" y="258" fill="#8b949e">&#218;ltimo commit: h&#225; 4 meses | Git: limpo</text>
+        <text x="532" y="274" fill="#8b949e">Artefatos eleg&#237;veis: &#8226; node_modules (418.47 MB)</text>
+        <text x="532" y="290" fill="#f85149">Status do projeto: Inativo (seguro para poda)</text>
+
+        <text x="532" y="312" fill="#d29922">Confirma&#231;&#227;o necess&#225;ria: Deseja realmente podar os artefatos?</text>
+        <text x="532" y="328" fill="#e6edf3">Espa&#231;o total a ser liberado: 418.47 MB (legacy-billing-module)</text>
+        <text x="532" y="344" fill="#8b949e">Clique em [Confirmar] para executar ou [Cancelar] para desistir.</text>
+
+        <text x="532" y="374" fill="#e6edf3" font-size="11">project-pruner &gt; prune-multiple (1 projetos)</text>
+        <text x="532" y="392" fill="#8b949e" font-size="11">Iniciando poda segura dos projetos selecionados...</text>
+        <text x="532" y="412" fill="#3fb950" font-size="11" font-weight="700">Poda conclu&#237;da com sucesso! Projetos podados: 1 | Espa&#231;o liberado: 418.47 MB</text>
+      </g>
+    </g>
+
+    <!-- Bottom Buttons -->
+    <g id="bottom-buttons">
+      <!-- Analisar -->
+      <rect x="16" y="493" width="58" height="24" rx="4" fill="#21262d" stroke="#30363d" stroke-width="1" />
+      <text x="45" y="509" text-anchor="middle" fill="#e6edf3" font-size="11" font-weight="500">Analisar</text>
+
+      <!-- Apagar -->
+      <rect x="80" y="493" width="54" height="24" rx="4" fill="#21262d" stroke="#30363d" stroke-width="1" />
+      <text x="107" y="509" text-anchor="middle" fill="#e6edf3" font-size="11" font-weight="500">Apagar</text>
+
+      <!-- Confirmar -->
+      <rect id="btn-confirmar-bg" x="854" y="493" width="70" height="24" rx="4" fill="#161b22" stroke="#21262d" stroke-width="1" />
+      <text id="btn-confirmar-lbl" x="889" y="509" text-anchor="middle" fill="#484f58" font-size="11">Confirmar</text>
+
+      <!-- Cancelar -->
+      <rect x="930" y="493" width="58" height="24" rx="4" fill="#21262d" stroke="#30363d" stroke-width="1" />
+      <text x="959" y="509" text-anchor="middle" fill="#e6edf3" font-size="11" font-weight="500">Cancelar</text>
+    </g>
+  </g>
+
+  <!-- ================= ANIMATED VECTOR MOUSE CURSOR ================= -->
+  <g id="cursor-group">
+    <!-- Click Ripple Circle -->
+    <circle id="cursor-ripple" cx="0" cy="0" r="0" fill="none" stroke="#58a6ff" stroke-width="2.2" />
+
+    <!-- Pure Vector Cursor Arrow -->
+    <g transform="translate(0, 0)">
+      <!-- Drop Shadow -->
+      <path d="M 0 0 L 0 17 L 4 13 L 8 21 L 10.5 19.5 L 6.5 11.5 L 12 11.5 Z" fill="#000000" opacity="0.35" transform="translate(1.5, 1.5)" />
+      <!-- Dark Outline -->
+      <path d="M 0 0 L 0 17 L 4 13 L 8 21 L 10.5 19.5 L 6.5 11.5 L 12 11.5 Z" fill="#111111" stroke="#111111" stroke-width="1.2" />
+      <!-- Crisp White Body -->
+      <path d="M 0 0 L 0 15 L 3.5 11.5 L 7 19 L 9 18 L 5.5 10.5 L 10.5 10.5 Z" fill="#ffffff" />
+    </g>
+  </g>
+</svg>
